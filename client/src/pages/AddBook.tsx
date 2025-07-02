@@ -21,7 +21,7 @@ import { useForm } from "react-hook-form";
 export const AddBook = () => {
   const form = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     console.log(data);
   };
 
