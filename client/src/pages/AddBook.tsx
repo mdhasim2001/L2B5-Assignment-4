@@ -17,12 +17,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
+import { useCreateBookMutation } from "@/redux/api/baseApi";
+import { useNavigate } from "react-router";
 
 export const AddBook = () => {
   const form = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const [createBook] = useCreateBookMutation();
+
+  const onSubmit = async (data: any) => {
+    const res = await createBook(data);
+    if (res.data) {
+      form.reset();
+      navigate("/books");
+    }
   };
 
   return (

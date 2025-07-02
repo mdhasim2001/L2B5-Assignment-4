@@ -6,14 +6,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetBooksQuery } from "@/redux/api/baseApi";
+import { useDeleteBookMutation, useGetBooksQuery } from "@/redux/api/baseApi";
 import { Edit, Gift, Trash } from "lucide-react";
 
 export function Books() {
   const { data, isLoading } = useGetBooksQuery([]);
+  const [deleteBook] = useDeleteBookMutation();
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  const handleBookDelete = async (bookId: any) => {
+    const res = await deleteBook(bookId);
+  };
 
   return (
     <Table>
@@ -40,7 +45,10 @@ export function Books() {
               <TableCell>{book.available ? "Yes" : "No"}</TableCell>
               <TableCell className="flex items-center justify-start gap-1">
                 <Edit className="cursor-pointer" />
-                <Trash className="cursor-pointer" />
+                <Trash
+                  onClick={() => handleBookDelete(book._id)}
+                  className="cursor-pointer"
+                />
                 <Gift className="cursor-pointer" />
               </TableCell>
             </TableRow>
